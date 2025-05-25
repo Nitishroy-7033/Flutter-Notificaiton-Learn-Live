@@ -7,7 +7,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NotificationController notificationController = Get.put(NotificationController());
+    NotificationController notificationController = Get.put(
+      NotificationController(),
+    );
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -51,8 +53,15 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      notificationController.showPictureNotification();
+                    onPressed: () async {
+                      TimeOfDay? time = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+                      if(time!=null)
+                      {
+                        notificationController.scheduleNotification(time);
+                      }
                     },
                     child: Text("Schedule Notification"),
                   ),
